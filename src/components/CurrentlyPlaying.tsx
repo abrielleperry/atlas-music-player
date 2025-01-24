@@ -21,6 +21,8 @@ type CurrentlyPlayingProps = {
   isShuffleOn: boolean;
   toggleShuffle: () => void;
   onChangeSong: (newIndex: number) => void;
+  volume: number;
+  setVolume: (volume: number) => void;
 };
 
 const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
@@ -33,6 +35,7 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
 }) => {
   const [song, setSong] = useState<Song | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [volume, setVolume] = useState<number>(50);
   useEffect(() => {
     const fetchSong = async () => {
       setLoading(true);
@@ -62,8 +65,10 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
         toggleShuffle={toggleShuffle}
         onChangeSong={onChangeSong}
       />
-
-      <VolumeControls />
+      <VolumeControls
+        volume={volume}
+        onVolumeChange={(newVolume) => setVolume(newVolume)}
+      />{" "}
     </div>
   );
 };

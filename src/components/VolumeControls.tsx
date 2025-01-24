@@ -3,12 +3,15 @@ import { Slider } from "@material-tailwind/react";
 import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const VolumeControls: React.FC = () => {
-  const [volume, setVolume] = useState(50);
-  const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setVolume(Number(event.target.value));
-  };
+type VolumeControlsProps = {
+  volume: number;
+  onVolumeChange: (newVolume: number) => void;
+};
 
+const VolumeControls: React.FC<VolumeControlsProps> = ({
+  volume,
+  onVolumeChange,
+}) => {
   return (
     <div className=" flex flex-row items-center gap-2 p-4">
       <FontAwesomeIcon
@@ -18,7 +21,9 @@ const VolumeControls: React.FC = () => {
 
       <Slider
         value={volume}
-        onChange={handleVolumeChange}
+        onChange={(e) => onVolumeChange(Number(e.target.value))}
+        min={0}
+        max={100}
         defaultValue={50}
         className="text-green"
         barClassName="bg-green"
