@@ -14,17 +14,20 @@ type Song = {
 
 export default function MusicPlayer() {
   const [playlist, setPlaylist] = useState<Song[]>([]);
-  const [currentSongId, setCurrentSongId] = useState<string | null>(null);
+  const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPlaylist = async () => {
       setLoading(true);
-      const response = await fetch("http://localhost:5173/api/v1/playlist");
-      const data: Song[] = await response.json();
-      setPlaylist(data);
-      setCurrentSongId(data[0]?.id || null);
-      setLoading(false);
+      try {
+        const response = await fetch("http://localhost:5173/api/v1/playlist");
+        const data: Song[] = await response.json();
+        setPlaylist(data);
+        setCurrentSongIndex(0);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchPlaylist();
@@ -35,14 +38,23 @@ export default function MusicPlayer() {
   if (!playlist.length) {
     return <div>No songs</div>;
   }
+  const changeCurrentSong = (newIndex: number) => {
+    setCurrentSongIndex(newIndex);
+  };
+
   return (
     <div className="flex flex-col w-full sm:flex-row">
-      {currentSongId && <CurrentlyPlaying songId={currentSongId} />}
+      <CurrentlyPlaying songId={playlist[currentSongIndex]?.id} />
       <Playlist
         playlist={playlist}
-        currentSongId={currentSongId}
-        onSongSelect={(id) => setCurrentSongId(id)}
-      />
+        currentSongId={playlist[currentSongIndex]?.id}
+        onSongSelect={(id) => {
+          const newIndex = playlist.findIndex((song) => song.id === id);
+          if (newIndex !== -1) {
+            changeCurrentSong(newIndex); // Change to the selected song
+          }
+        }}
+      />{" "}
     </div>
   );
 }
