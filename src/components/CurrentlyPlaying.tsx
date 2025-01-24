@@ -16,9 +16,21 @@ type Song = {
 
 type CurrentlyPlayingProps = {
   songId: string;
+  currentSongIndex: number;
+  playlistLength: number;
+  isShuffleOn: boolean;
+  toggleShuffle: () => void;
+  onChangeSong: (newIndex: number) => void;
 };
 
-const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({ songId }) => {
+const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
+  songId,
+  currentSongIndex,
+  playlistLength,
+  isShuffleOn,
+  toggleShuffle,
+  onChangeSong,
+}) => {
   const [song, setSong] = useState<Song | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -31,14 +43,11 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({ songId }) => {
       setSong(data);
       setLoading(false);
     };
-
     fetchSong();
   }, [songId]);
-
   if (loading) {
     return <div>Loading...</div>;
   }
-
   if (!song) {
     return <div>Song not found</div>;
   }
@@ -46,7 +55,14 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({ songId }) => {
     <div className="flex flex-col flex-1 px-6 border-b sm:border-b-0 sm:border-r border-gray-200 rounded">
       <CoverArt coverUrl={song?.cover || null} loading={loading} />
       <SongTitle title={song.title} artist={song.artist} />
-      <PlayControls />
+      <PlayControls
+        currentSongIndex={currentSongIndex}
+        playlistLength={playlistLength}
+        isShuffleOn={isShuffleOn}
+        toggleShuffle={toggleShuffle}
+        onChangeSong={onChangeSong}
+      />
+
       <VolumeControls />
     </div>
   );

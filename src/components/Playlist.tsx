@@ -1,20 +1,9 @@
 import React from "react";
 import PlayListItem from "./PlayListItem";
-import SongTitle from "./SongTitle";
-
-type Song = {
-  id: string;
-  title: string;
-  artist: string;
-  genre: string;
-  duration: number;
-  cover: string;
-  song: string;
-};
 
 type PlaylistProps = {
-  playlist: Song[];
-  currentSongId: string | null;
+  playlist: { id: string; title: string; artist: string; duration: number }[];
+  currentSongId: string;
   onSongSelect: (id: string) => void;
 };
 
