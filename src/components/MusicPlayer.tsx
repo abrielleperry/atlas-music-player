@@ -71,6 +71,8 @@ export default function MusicPlayer() {
         setVolume={setVolume}
         isPlaying={isPlaying}
         togglePlayPause={() => setIsPlaying((prev) => !prev)}
+        playbackSpeed={playbackSpeed}
+        setPlaybackSpeed={setPlaybackSpeed}
       />
       <Playlist
         playlist={playlist}

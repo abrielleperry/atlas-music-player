@@ -26,6 +26,8 @@ type CurrentlyPlayingProps = {
   setVolume: (volume: number) => void;
   isPlaying: boolean;
   togglePlayPause: () => void;
+  playbackSpeed: number;
+  setPlaybackSpeed: (speed: number) => void;
 };
 
 const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
@@ -39,6 +41,8 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
   setVolume,
   togglePlayPause,
   isPlaying,
+  playbackSpeed,
+  setPlaybackSpeed,
 }) => {
   const [song, setSong] = useState<Song | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,8 +81,8 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
         songUrl={song.song}
         isPlaying={isPlaying}
         volume={volume}
-        playbackSpeed={1} // Adjust if you add playback speed controls
-        onSongEnd={() => onChangeSong(currentSongIndex + 1)} // Adjust for shuffle logic
+        playbackSpeed={1}
+        onSongEnd={() => onChangeSong(currentSongIndex + 1)}
       />
       <CoverArt coverUrl={song.cover} loading={loading} />
       <SongTitle title={song.title} artist={song.artist} />
@@ -90,6 +94,8 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
         isPlaying={isPlaying}
         togglePlayPause={togglePlayPause}
         onChangeSong={onChangeSong}
+        playbackSpeed={playbackSpeed}
+        setPlaybackSpeed={setPlaybackSpeed}
       />
       <VolumeControls
         volume={volume}
