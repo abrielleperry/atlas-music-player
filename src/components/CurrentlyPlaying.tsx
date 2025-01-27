@@ -81,7 +81,7 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
         songUrl={song.song}
         isPlaying={isPlaying}
         volume={volume}
-        playbackSpeed={1}
+        playbackSpeed={playbackSpeed}
         onSongEnd={() => onChangeSong(currentSongIndex + 1)}
       />
       <CoverArt coverUrl={song.cover} loading={loading} />
