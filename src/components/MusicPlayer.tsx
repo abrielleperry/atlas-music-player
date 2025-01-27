@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CurrentlyPlaying from "./CurrentlyPlaying";
 import Playlist from "./Playlist";
+import AudioPlayer from "./AudioPlayer";
 
 type Song = {
   id: string;
@@ -17,6 +18,9 @@ export default function MusicPlayer() {
   const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
   const [isShuffleOn, setIsShuffleOn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [volume, setVolume] = useState<number>(50);
+  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPlaylist = async () => {
@@ -31,6 +35,18 @@ export default function MusicPlayer() {
     fetchPlaylist();
   }, []);
   const toggleShuffle = () => setIsShuffleOn((prev) => !prev);
+
+  const handleSongEnd = () => {
+    if (isShuffleOn) {
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      setCurrentSongIndex(randomIndex);
+    } else if (currentSongIndex < playlist.length - 1) {
+      setCurrentSongIndex((prev) => prev + 1);
+    } else {
+      setIsPlaying(false);
+    }
+  };
+
   if (loading) {
     return <div>Loading</div>;
   }
@@ -40,6 +56,13 @@ export default function MusicPlayer() {
 
   return (
     <div className="flex flex-col w-full sm:flex-row">
+      <AudioPlayer
+        songUrl={playlist[currentSongIndex].song}
+        isPlaying={isPlaying}
+        volume={volume}
+        playbackSpeed={playbackSpeed}
+        onSongEnd={handleSongEnd}
+      />{" "}
       <CurrentlyPlaying
         songId={playlist[currentSongIndex].id}
         currentSongIndex={currentSongIndex}
@@ -47,6 +70,10 @@ export default function MusicPlayer() {
         isShuffleOn={isShuffleOn}
         toggleShuffle={toggleShuffle}
         onChangeSong={setCurrentSongIndex}
+        volume={volume}
+        setVolume={setVolume}
+        isPlaying={isPlaying}
+        togglePlayPause={() => setIsPlaying((prev) => !prev)}
       />
       <Playlist
         playlist={playlist}
@@ -55,6 +82,7 @@ export default function MusicPlayer() {
           const newIndex = playlist.findIndex((song) => song.id === id);
           if (newIndex !== -1) {
             setCurrentSongIndex(newIndex);
+            setIsPlaying(true);
           }
         }}
       />

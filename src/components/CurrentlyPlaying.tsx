@@ -23,6 +23,8 @@ type CurrentlyPlayingProps = {
   onChangeSong: (newIndex: number) => void;
   volume: number;
   setVolume: (volume: number) => void;
+  isPlaying: boolean;
+  togglePlayPause: () => void;
 };
 
 const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
@@ -32,20 +34,29 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
   isShuffleOn,
   toggleShuffle,
   onChangeSong,
+  volume,
+  setVolume,
+  togglePlayPause,
+  isPlaying,
 }) => {
   const [song, setSong] = useState<Song | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [volume, setVolume] = useState<number>(50);
   useEffect(() => {
     const fetchSong = async () => {
       setLoading(true);
-      const response = await fetch(
-        `http://localhost:5173/api/v1/songs/${songId}`
-      );
-      const data: Song = await response.json();
-      setSong(data);
-      setLoading(false);
+      try {
+        const response = await fetch(
+          `http://localhost:5173/api/v1/songs/${songId}`
+        );
+        const data: Song = await response.json();
+        setSong(data);
+      } catch (error) {
+        console.error("Error fetching song data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchSong();
   }, [songId]);
   if (loading) {
@@ -63,7 +74,11 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
         playlistLength={playlistLength}
         isShuffleOn={isShuffleOn}
         toggleShuffle={toggleShuffle}
-        onChangeSong={onChangeSong}
+        isPlaying={isPlaying}
+        togglePlayPause={togglePlayPause}
+        onChangeSong={(newIndex) => {
+          onChangeSong(newIndex);
+        }}
       />
       <VolumeControls
         volume={volume}
