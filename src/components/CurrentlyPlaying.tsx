@@ -4,6 +4,7 @@ import SongTitle from "./SongTitle";
 import PlayControls from "./PlayControls";
 import VolumeControls from "./VolumeControls";
 import AudioPlayer from "./AudioPlayer";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 type Song = {
   id: string;
@@ -69,7 +70,7 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
   }, [songId]);
 
   if (loading) {
-    return <div>Loading song details...</div>;
+    return <LoadingSkeleton />;
   }
 
   if (!song) {

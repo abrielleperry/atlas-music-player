@@ -6,13 +6,10 @@ type CoverArtProps = {
   loading: boolean;
 };
 
-const CoverArt: React.FC<CoverArtProps> = ({ coverUrl, loading }) => {
+const CoverArt: React.FC<CoverArtProps> = ({ coverUrl }) => {
   return (
     <div className="shadow-lg shadow-coral">
-      <img
-        src={loading || !coverUrl ? PlaceHolderImage : coverUrl}
-        alt="Cover art image"
-      />
+      <img src={coverUrl || PlaceHolderImage} alt="Cover art image" />
     </div>
   );
 };

@@ -6,12 +6,12 @@ export default function LoadingSkeleton() {
   return (
     <div
       role="status"
-      class="flex p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700"
+      className="flex p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700"
     >
       <div className="flex flex-col  flex-1 p-6 border-b sm:border-b-0 sm:border-r border-gray-200 ">
-        <div class="flex-1 items-center justify-center  mb-4 bg-gray-200 rounded dark:bg-gray-700"></div>
-        <div class="h-5 bg-gray-200  dark:bg-gray-700 w-40 mb-4"></div>
-        <div class="h-5 bg-gray-200  dark:bg-gray-700 w-20 mb-4"></div>
+        <div className="flex-1 items-center justify-center  mb-4 bg-gray-200 rounded dark:bg-gray-700"></div>
+        <div className="h-5 bg-gray-200  dark:bg-gray-700 w-40 mb-4"></div>
+        <div className="h-5 bg-gray-200  dark:bg-gray-700 w-20 mb-4"></div>
 
         <div className="player-controls flex justify-between gap-2 rounded-xl p-4 items-center text-black dark:text-white">
           <div className="text-gray-700 text-lg">1x</div>
