@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 
 type AudioPlayerProps = {
-  songUrl: string;
+  songUrl: string | null;
   isPlaying: boolean;
   volume: number;
   playbackSpeed: number;
@@ -16,42 +16,44 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   onSongEnd,
 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
   useEffect(() => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+      audioRef.current.playbackRate = playbackSpeed;
     }
-  }, [isPlaying]);
+  }, [volume, playbackSpeed]);
 
   useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.volume = volume / 100;
-  }, [volume]);
+    if (audioRef.current) {
+      if (isPlaying && songUrl) {
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error);
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying, songUrl]);
 
   useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.playbackRate = playbackSpeed;
-  }, [playbackSpeed]);
+    if (audioRef.current) {
+      const handleEnded = () => {
+        onSongEnd();
+      };
+      audioRef.current.addEventListener("ended", handleEnded);
 
-  useEffect(() => {
-    if (!audioRef.current) return;
-    const handleEnded = () => onSongEnd();
-    audioRef.current.addEventListener("ended", handleEnded);
-    return () => {
-      audioRef.current?.removeEventListener("ended", handleEnded);
-    };
+      return () => {
+        audioRef.current?.removeEventListener("ended", handleEnded);
+      };
+    }
   }, [onSongEnd]);
 
-  return (
-    <audio
-      ref={audioRef}
-      src={songUrl}
-      preload="metadata"
-      style={{ display: "none" }}
-    />
-  );
+  if (!songUrl) {
+    return null;
+  }
+
+  return <audio ref={audioRef} src={songUrl} />;
 };
 
 export default AudioPlayer;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CurrentlyPlaying from "./CurrentlyPlaying";
 import Playlist from "./Playlist";
-import AudioPlayer from "./AudioPlayer";
 
 type Song = {
   id: string;
@@ -9,8 +8,6 @@ type Song = {
   artist: string;
   genre: string;
   duration: number;
-  cover: string;
-  song: string;
 };
 
 export default function MusicPlayer() {
@@ -19,21 +16,26 @@ export default function MusicPlayer() {
   const [isShuffleOn, setIsShuffleOn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [volume, setVolume] = useState<number>(50);
-  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPlaylist = async () => {
       setLoading(true);
-      const response = await fetch("http://localhost:5173/api/v1/playlist");
-      const data: Song[] = await response.json();
-      setPlaylist(data);
-      setCurrentSongIndex(0);
-      setLoading(false);
+      try {
+        const response = await fetch("http://localhost:5173/api/v1/playlist");
+        const data: Song[] = await response.json();
+        setPlaylist(data);
+        setCurrentSongIndex(0);
+      } catch (error) {
+        console.error("Error fetching playlist:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchPlaylist();
   }, []);
+
   const toggleShuffle = () => setIsShuffleOn((prev) => !prev);
 
   const handleSongEnd = () => {
@@ -47,6 +49,8 @@ export default function MusicPlayer() {
     }
   };
 
+  console.log("Current song index:", currentSongIndex);
+  console.log("Current song:", playlist[currentSongIndex]);
   if (loading) {
     return <div>Loading</div>;
   }
@@ -56,15 +60,8 @@ export default function MusicPlayer() {
 
   return (
     <div className="flex flex-col w-full sm:flex-row">
-      <AudioPlayer
-        songUrl={playlist[currentSongIndex].song}
-        isPlaying={isPlaying}
-        volume={volume}
-        playbackSpeed={playbackSpeed}
-        onSongEnd={handleSongEnd}
-      />{" "}
       <CurrentlyPlaying
-        songId={playlist[currentSongIndex].id}
+        songId={playlist[currentSongIndex]?.id || ""}
         currentSongIndex={currentSongIndex}
         playlistLength={playlist.length}
         isShuffleOn={isShuffleOn}
@@ -77,7 +74,7 @@ export default function MusicPlayer() {
       />
       <Playlist
         playlist={playlist}
-        currentSongId={playlist[currentSongIndex].id}
+        currentSongId={playlist[currentSongIndex]?.id || ""}
         onSongSelect={(id) => {
           const newIndex = playlist.findIndex((song) => song.id === id);
           if (newIndex !== -1) {

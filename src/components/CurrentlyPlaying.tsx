@@ -3,6 +3,7 @@ import CoverArt from "./CoverArt";
 import SongTitle from "./SongTitle";
 import PlayControls from "./PlayControls";
 import VolumeControls from "./VolumeControls";
+import AudioPlayer from "./AudioPlayer";
 
 type Song = {
   id: string;
@@ -41,6 +42,7 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
 }) => {
   const [song, setSong] = useState<Song | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const fetchSong = async () => {
       setLoading(true);
@@ -57,17 +59,28 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
       }
     };
 
-    fetchSong();
+    if (songId) {
+      fetchSong();
+    }
   }, [songId]);
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading song details...</div>;
   }
+
   if (!song) {
     return <div>Song not found</div>;
   }
   return (
     <div className="flex flex-col flex-1 px-6 border-b sm:border-b-0 sm:border-r border-gray-200 rounded">
-      <CoverArt coverUrl={song?.cover || null} loading={loading} />
+      <AudioPlayer
+        songUrl={song.song}
+        isPlaying={isPlaying}
+        volume={volume}
+        playbackSpeed={1} // Adjust if you add playback speed controls
+        onSongEnd={() => onChangeSong(currentSongIndex + 1)} // Adjust for shuffle logic
+      />
+      <CoverArt coverUrl={song.cover} loading={loading} />
       <SongTitle title={song.title} artist={song.artist} />
       <PlayControls
         currentSongIndex={currentSongIndex}
@@ -76,14 +89,12 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
         toggleShuffle={toggleShuffle}
         isPlaying={isPlaying}
         togglePlayPause={togglePlayPause}
-        onChangeSong={(newIndex) => {
-          onChangeSong(newIndex);
-        }}
+        onChangeSong={onChangeSong}
       />
       <VolumeControls
         volume={volume}
         onVolumeChange={(newVolume) => setVolume(newVolume)}
-      />{" "}
+      />
     </div>
   );
 };
