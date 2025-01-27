@@ -33,7 +33,8 @@ const PlayListItem: React.FC<PlayListItemProps> = ({
           </p>
         </div>
         <div className="text-right  text-sm font-normal subpixel-antialiased  text-natural-stone dark:text-neutral-700">
-          {Math.floor(song.duration / 60)}:{song.duration % 60}
+          {Math.floor(song.duration / 60)}:
+          {String(song.duration % 60).padStart(2, "0")}{" "}
         </div>
       </div>
     </div>
