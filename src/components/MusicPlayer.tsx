@@ -17,6 +17,7 @@ export default function MusicPlayer() {
   const [loading, setLoading] = useState<boolean>(true);
   const [volume, setVolume] = useState<number>(50);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
 
   useEffect(() => {
     const fetchPlaylist = async () => {

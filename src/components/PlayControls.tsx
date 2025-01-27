@@ -9,6 +9,8 @@ type PlayControlsProps = {
   toggleShuffle: () => void;
   isPlaying: boolean;
   togglePlayPause: () => void;
+  playbackSpeed: number;
+  setPlaybackSpeed: (speed: number) => void;
 };
 
 const PlayerControls: React.FC<PlayControlsProps> = ({
@@ -19,15 +21,12 @@ const PlayerControls: React.FC<PlayControlsProps> = ({
   toggleShuffle,
   isPlaying,
   togglePlayPause,
+  playbackSpeed,
+  setPlaybackSpeed,
 }) => {
-  const [playbackSpeed, setPlaybackSpeed] = useState(1);
-
   const changePlaybackSpeed = () => {
-    setPlaybackSpeed((prev) => {
-      if (prev === 1) return 2;
-      if (prev === 2) return 0.5;
-      return 1;
-    });
+    const newSpeed = playbackSpeed === 1 ? 2 : playbackSpeed === 2 ? 0.5 : 1;
+    setPlaybackSpeed(newSpeed);
   };
 
   const goToPreviousSong = () => {
