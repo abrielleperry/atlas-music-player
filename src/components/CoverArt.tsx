@@ -3,7 +3,6 @@ import PlaceHolderImage from "../assets/placeholder.svg";
 
 type CoverArtProps = {
   coverUrl: string | null;
-  loading: boolean;
 };
 
 const CoverArt: React.FC<CoverArtProps> = ({ coverUrl }) => {

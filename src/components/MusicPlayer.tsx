@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CurrentlyPlaying from "./CurrentlyPlaying";
 import Playlist from "./Playlist";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 type Song = {
   id: string;
@@ -39,21 +40,10 @@ export default function MusicPlayer() {
 
   const toggleShuffle = () => setIsShuffleOn((prev) => !prev);
 
-  const handleSongEnd = () => {
-    if (isShuffleOn) {
-      const randomIndex = Math.floor(Math.random() * playlist.length);
-      setCurrentSongIndex(randomIndex);
-    } else if (currentSongIndex < playlist.length - 1) {
-      setCurrentSongIndex((prev) => prev + 1);
-    } else {
-      setIsPlaying(false);
-    }
-  };
-
   console.log("Current song index:", currentSongIndex);
   console.log("Current song:", playlist[currentSongIndex]);
   if (loading) {
-    return <div>Loading</div>;
+    return <LoadingSkeleton />;
   }
   if (!playlist.length) {
     return <div>No songs</div>;

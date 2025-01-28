@@ -69,6 +69,17 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
     }
   }, [songId]);
 
+  const handleSongEnd = () => {
+    if (isShuffleOn) {
+      const randomIndex = Math.floor(Math.random() * playlistLength);
+      onChangeSong(randomIndex);
+    } else if (currentSongIndex < playlistLength - 1) {
+      onChangeSong(currentSongIndex + 1);
+    } else {
+      togglePlayPause();
+    }
+  };
+
   if (loading) {
     return <LoadingSkeleton />;
   }
@@ -83,9 +94,9 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
         isPlaying={isPlaying}
         volume={volume}
         playbackSpeed={playbackSpeed}
-        onSongEnd={() => onChangeSong(currentSongIndex + 1)}
+        onSongEnd={handleSongEnd}
       />
-      <CoverArt coverUrl={song.cover} loading={loading} />
+      <CoverArt coverUrl={song.cover} />
       <SongTitle title={song.title} artist={song.artist} />
       <PlayControls
         currentSongIndex={currentSongIndex}
