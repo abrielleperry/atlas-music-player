@@ -13,7 +13,7 @@ const Playlist: React.FC<PlaylistProps> = ({
   onSongSelect,
 }) => {
   return (
-    <div className="flex flex-col flex-1 px-6 ">
+    <div className="flex flex-col flex-1 p-6 ">
       <div className="relative ">
         <div className="absolute top-10 -left-4 w-80 h-80  bg-orange-sunset rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
         <div className="absolute bottom-40 -right-10 w-80 h-80 bg-coral  rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
