@@ -1,5 +1,4 @@
 import React from "react";
-import { Slider } from "@material-tailwind/react";
 import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,18 +19,14 @@ const VolumeControls: React.FC<VolumeControlsProps> = ({
         aria-label="Volume Icon"
       />
 
-      <Slider
+      <input
+        type="range"
+        min="0"
+        max="100"
         value={volume}
-        onChange={(e) =>
-          onVolumeChange(Number((e.target as HTMLInputElement).value))
-        }
-        min={0}
-        max={100}
+        onChange={(e) => onVolumeChange(Number(e.target.value))}
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-0"
         aria-label="Volume control"
-        className="text-olive-green"
-        barClassName="bg-olive-green"
-        thumbClassName="shadow-md [&::-webkit-slider-thumb]:bg-olive-green [&::-moz-range-thumb]:bg-olive-green"
-        trackClassName="border border-olive-green/70 rounded dark:shadow-none"
       />
     </div>
   );
