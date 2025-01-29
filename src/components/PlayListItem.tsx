@@ -20,7 +20,7 @@ const PlayListItem: React.FC<PlayListItemProps> = ({
     <div className="flex flex-col gap-y-4 py-2">
       <div
         className={`flex items-center bg-neutral-50 dark:bg-white shadow-md hover:scale-105 p-2 rounded-lg transition duration-200 px-4 ${
-          isSelected ? "border-2 border-green" : ""
+          isSelected ? "border-2 border-olive-green" : ""
         }`}
         onClick={onClick}
       >

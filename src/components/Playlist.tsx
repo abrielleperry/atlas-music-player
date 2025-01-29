@@ -20,7 +20,7 @@ const Playlist: React.FC<PlaylistProps> = ({
         <div className="absolute bottom-2 left-20 w-80 h-80 bg-golden-yellow rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
 
         <div className="relative  ">
-          <div className="font-light tracking-wide shadow-md text-xl  subpixel-antialiased text-white p-3 mb-2 rounded-t-lg bg-green dark:bg-golden-yellow  ">
+          <div className="font-light tracking-wide shadow-md text-xl  subpixel-antialiased text-white p-3 mb-2 rounded-t-lg bg-olive-green dark:bg-golden-yellow  ">
             Playlist
           </div>
           {playlist.map((song) => (
