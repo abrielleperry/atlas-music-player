@@ -76,19 +76,19 @@ const PlayerControls: React.FC<PlayControlsProps> = ({
         <button
           className="border-2 rounded p-3  group hover:border-golden-yellow group-hover:scale-150 duration-150  dark:border-white border-black"
           onClick={togglePlayPause}
-          aria-label={isPlaying ? "Pause playback" : "Start playback"}
+          aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? (
             <Pause
               fill="currentColor"
               stroke="currentColor"
-              className="group-hover:fill-golden-yellow group-hover:stroke-golden-yellow group-hover:scale-150 duration-150"
+              className="pause group-hover:fill-golden-yellow group-hover:stroke-golden-yellow group-hover:scale-150 duration-150"
             />
           ) : (
             <Play
               fill="currentColor"
               stroke="currentColor"
-              className="group-hover:fill-golden-yellow group-hover:stroke-golden-yellow group-hover:scale-150 duration-150"
+              className="play group-hover:fill-golden-yellow group-hover:stroke-golden-yellow group-hover:scale-150 duration-150"
             />
           )}
         </button>
@@ -114,9 +114,14 @@ const PlayerControls: React.FC<PlayControlsProps> = ({
       {/* shuffle */}
 
       <div>
-        <button className="p-1 group" onClick={toggleShuffle}>
+        <button
+          className="p-1 group"
+          onClick={toggleShuffle}
+          aria-label="Toggle shuffle"
+        >
           <Shuffle
             strokeWidth={2}
+            aria-label="Toggle shuffle"
             color="currentColor"
             className={`group-hover:stroke-golden-yellow group-hover:scale-150 duration-150 ${
               isShuffleOn ? "stroke-golden-yellow" : ""

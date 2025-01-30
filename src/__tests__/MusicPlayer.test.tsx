@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { server } from "../mocks/server";
+import { test, expect, beforeAll, afterEach, afterAll } from "vitest";
 import MusicPlayer from "../components/MusicPlayer";
-import { afterEach, beforeAll, afterAll, test, expect } from "vitest";
+import { server } from "../mocks/server";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -12,10 +12,22 @@ test("Renders loading skeleton initially", () => {
   expect(screen.getByRole("status")).toBeInTheDocument();
 });
 
-test("loads and displays playlist", async () => {
+test("renders the first song in the playlist by default", async () => {
   render(<MusicPlayer />);
 
-  await waitFor(() => {
-    expect(screen.getByText("Painted in Blue")).toBeInTheDocument();
-  });
+  const firstSongTitle = await screen.findByText(/song one/i);
+  expect(firstSongTitle).toBeInTheDocument();
+});
+
+test("changes current song when user clicks a playlist item", async () => {
+  render(<MusicPlayer />);
+
+  await screen.findByText(/song one/i);
+
+  const songThree = await screen.findByText(/song three/i);
+
+  fireEvent.click(songThree);
+
+  const currentSongTitle = await screen.findByText(/song three/i);
+  expect(currentSongTitle).toBeInTheDocument();
 });
