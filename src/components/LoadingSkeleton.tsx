@@ -1,6 +1,5 @@
 import React from "react";
 import { Shuffle, Rewind, Play, FastForward, Volume2 } from "lucide-react";
-import { Slider } from "@material-tailwind/react";
 
 export default function LoadingSkeleton() {
   return (
@@ -31,12 +30,13 @@ export default function LoadingSkeleton() {
         <div className="">
           <div className="flex flex-row items-center gap-2 py-6">
             <Volume2 fill="gray" stroke="gray" />
-            <Slider
-              defaultValue={50}
-              className="text-gray-200"
-              barClassName="bg-gray-200"
-              thumbClassName="[&::-moz-range-thumb]:-mt-[4px] [&::-webkit-slider-thumb]:-mt-[4px] [&::-webkit-slider-thumb]:bg-gray-200 [&::-moz-range-thumb]:bg-gray-200"
-              trackClassName="[&::-webkit-slider-runnable-track]:bg-transparent [&::-moz-range-track]:bg-gray-200 border border-gray-/70 rounded"
+
+            <input
+              type="range"
+              min="0"
+              max="100"
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-0"
+              aria-label="Volume control"
             />
           </div>
         </div>

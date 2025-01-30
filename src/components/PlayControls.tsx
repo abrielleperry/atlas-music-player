@@ -76,6 +76,7 @@ const PlayerControls: React.FC<PlayControlsProps> = ({
         <button
           className="border-2 rounded p-3  group hover:border-golden-yellow group-hover:scale-150 duration-150  dark:border-white border-black"
           onClick={togglePlayPause}
+          aria-label={isPlaying ? "Pause playback" : "Start playback"}
         >
           {isPlaying ? (
             <Pause

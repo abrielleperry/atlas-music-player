@@ -88,7 +88,10 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
     return <div>Song not found</div>;
   }
   return (
-    <div className="flex flex-col flex-1 px-6 border-b sm:border-b-0 sm:border-r border-gray-200 rounded">
+    <div
+      data-testid="currently-playing"
+      className="flex flex-col flex-1 px-6 border-b sm:border-b-0 sm:border-r border-gray-200 rounded"
+    >
       <AudioPlayer
         songUrl={song.song}
         isPlaying={isPlaying}
