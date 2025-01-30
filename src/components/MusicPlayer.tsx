@@ -40,8 +40,6 @@ export default function MusicPlayer() {
 
   const toggleShuffle = () => setIsShuffleOn((prev) => !prev);
 
-  console.log("Current song index:", currentSongIndex);
-  console.log("Current song:", playlist[currentSongIndex]);
   if (loading) {
     return <LoadingSkeleton />;
   }

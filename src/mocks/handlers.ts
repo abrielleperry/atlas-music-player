@@ -2,6 +2,7 @@ import { http, HttpResponse } from "msw";
 
 export const handlers = [
   http.get("/api/v1/playlist", () => {
+    console.log("MSW -> GET /api/songs hit!");
     return HttpResponse.json([
       {
         id: "1",
@@ -25,5 +26,16 @@ export const handlers = [
         duration: 200,
       },
     ]);
+  }),
+  http.get("/api/v1/songs/:id", ({ request }) => {
+    const { id } = request.params;
+    console.log(`MSW -> GET /api/v1/songs/${id} hit!`);
+    return HttpResponse.json({
+      id,
+      title: `Mock Song ${id}`,
+      artist: "Mock Artist",
+      genre: "Mock Genre",
+      duration: 180,
+    });
   }),
 ];
