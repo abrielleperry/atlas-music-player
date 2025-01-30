@@ -24,7 +24,7 @@ export default function MusicPlayer() {
     const fetchPlaylist = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:5173/api/v1/playlist");
+        const response = await fetch("/api/v1/playlist");
         const data: Song[] = await response.json();
         setPlaylist(data);
         setCurrentSongIndex(0);

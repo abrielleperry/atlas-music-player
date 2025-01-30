@@ -52,9 +52,7 @@ const CurrentlyPlaying: React.FC<CurrentlyPlayingProps> = ({
     const fetchSong = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `http://localhost:5173/api/v1/songs/${songId}`
-        );
+        const response = await fetch(`/api/v1/songs/${songId}`);
         const data: Song = await response.json();
         setSong(data);
       } catch (error) {
